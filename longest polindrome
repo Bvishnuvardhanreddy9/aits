@@ -1,0 +1,35 @@
+class Solution(object):
+    def longestPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        if not s:
+            return ""
+
+        longest_palindrome = ""
+        
+        for i in range(len(s)):
+            # Odd length palindromes (e.g., "aba")
+            palindrome1 = self.expand_around_center(s, i, i)
+            if len(palindrome1) > len(longest_palindrome):
+                longest_palindrome = palindrome1
+
+            # Even length palindromes (e.g., "abba")
+            palindrome2 = self.expand_around_center(s, i, i + 1)
+            if len(palindrome2) > len(longest_palindrome):
+                longest_palindrome = palindrome2
+        
+        return longest_palindrome
+
+    def expand_around_center(self, s, left, right):
+        """
+        Helper function to expand from a center point
+        and return the palindromic substring.
+        """
+        while left >= 0 and right < len(s) and s[left] == s[right]:
+            left -= 1
+            right += 1
+        
+        # The substring is from left+1 to right-1
+        return s[left + 1:right]
